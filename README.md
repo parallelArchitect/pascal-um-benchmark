@@ -296,7 +296,7 @@ nsys profile \
 
 ### Timeline View
 
-![Nsight Timeline](docs/nsight_timeline.png)
+![Nsight Timeline](Docs/nsight_timeline.png)
 
 Visual proof: Page fault activity during naive kernel vs clean prefetch execution.
 
