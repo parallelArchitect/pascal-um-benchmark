@@ -185,7 +185,6 @@ python3 pascal_analyzer.py --pdf
 
 Includes: Hardware specs, kernel timing, page fault analysis, bandwidth measurements
 
-![PDF Report Example](docs/pdf_report.png)
 
 ### JSON Export
 
