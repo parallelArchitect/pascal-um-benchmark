@@ -1,3 +1,29 @@
+/*
+ * Pascal Unified Memory Benchmark — CUDA Kernel
+ *
+ * Minimal vector kernel used to measure Unified Memory behavior on Pascal GPUs.
+ * Designed to expose demand-paged cudaMallocManaged migration versus
+ * cudaMemPrefetchAsync DRAM-resident execution.
+ *
+ * Reference:
+ *   https://stackoverflow.com/questions/39782746
+ *
+ * Repository:
+ *   https://github.com/parallelArchitect/pascal-um-benchmark
+ *
+ * Author: Joe McLaren — Human–AI Collaborative Engineering
+ * License: MIT
+ * Version: 2.4.0
+ *
+ * Tested On:
+ *   - GPU: NVIDIA GeForce GTX 1080 (8 GB GDDR5X, SM 6.1)
+ *   - Driver: 535.274.02
+ *   - CUDA Toolkit: 12.0
+ *   - Compiler: nvcc 12.0 (V12.0.140)
+ *   - OS: Ubuntu 24.04
+ */
+
+
 #include <cuda_runtime.h>
 #include <stdio.h>
 #include <string.h>

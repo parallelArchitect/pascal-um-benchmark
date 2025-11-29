@@ -1,26 +1,30 @@
 #!/usr/bin/env python3
 """
-Pascal Unified Memory Profiler - Diagnostic Tool for cudaMallocManaged Performance
+Pascal Unified Memory Profiler — Diagnostic Tool for cudaMallocManaged Performance
 
-Automated profiler measuring Pascal GPU unified memory bottleneck documented in 
-9-year-old StackOverflow question. Quantifies page-fault-driven migration overhead 
-and validates cudaMemPrefetchAsync optimization with measured data.
+Automated profiler for analyzing Pascal GPU Unified Memory behavior under
+demand-paged migration. Measures page-fault-driven PCIe transfer overhead and
+demonstrates the effect of cudaMemPrefetchAsync on restoring DRAM-resident execution.
 
 Measured Performance (GTX 1080):
-    Naive UM:    8.2 GB/s  (386.6 ms, 31,774 page faults)
-    Prefetch UM: 242.3 GB/s (13.3 ms, zero page faults)
-    Speedup:     29.5x
+    Naive UM:    ~8–9 GB/s     (~360–390 ms, ~31k page faults)
+    Prefetch UM: ~241–242 GB/s (~13 ms, zero page faults)
+    Speedup:     ~25–30x
 
-Reference: https://stackoverflow.com/questions/39782746
+Reference:
+    https://stackoverflow.com/questions/39782746
 
-Author: Joe McLaren - Human-AI Collaborative Engineering
+Repository:
+    https://github.com/parallelArchitect/pascal-um-benchmark
+
+Author: Joe McLaren — Human–AI Collaborative Engineering
 License: MIT
 Version: 2.4.0
 
 Tested On:
     - GPU: NVIDIA GeForce GTX 1080 (8 GB GDDR5X, SM 6.1)
     - Driver: 535.274.02
-    - CUDA Toolkit: 12.2
+    - CUDA Toolkit: 12.0
     - Nsight Systems: 2025.5.1
     - Python: 3.10
     - OS: Ubuntu 24.04
@@ -32,22 +36,18 @@ Quick Start:
     python3 pascal_analyzer.py --pdf
 
 Usage:
-    python3 pascal_analyzer.py --pdf       # PDF report
+    python3 pascal_analyzer.py --pdf       # Generate PDF report
     python3 pascal_analyzer.py --json      # Machine-readable metrics
-    python3 pascal_analyzer.py --nvprof    # Raw profiler output
+    python3 pascal_analyzer.py --nvprof    # Raw nvprof output
     python3 pascal_analyzer.py --nsys      # Nsight Systems trace
     python3 pascal_analyzer.py --diagnose  # Verify installation
 
-Options:
-    --size 2G    Custom test size (512M, 1G, 2G, 4G)
-
 Output Formats:
-    PDF:  Hardware specs, kernel timing, page fault analysis, bandwidth measurements
-    JSON: Structured data (gpu info, timings, page faults)
+    PDF:  Hardware specs, kernel timing, page fault analysis
+    JSON: Structured data (GPU info, timings, page faults)
     nsys: Timeline visualization (.nsys-rep)
-
-Repository: https://github.com/yourusername/pascal-um-benchmark
 """
+
 
 import json
 import os

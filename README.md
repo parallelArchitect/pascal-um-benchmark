@@ -1,10 +1,13 @@
 # Pascal Unified Memory Performance Analysis
 
-A small, reproducible follow-up to the original Stack Overflow report of severe Unified Memory slowdown on Pascal GPUs.
+A small, reproducible follow-up to the original Stack Overflow report of severe Unified Memory slowdown on Pascal GPUs. 
 
-**Reference:** https://stackoverflow.com/questions/39782746
+**“Why is NVIDIA Pascal GPUs slow on running CUDA kernels when using cudaMallocManaged?”**
 
-This project extends that 9-year-old discussion with a focused benchmark, working example code, and profiler-backed evidence showing how demand-paged `cudaMallocManaged` falls into a PCIe-limited regime and how `cudaMemPrefetchAsync` restores DRAM-limited bandwidth.
+This project extends a 9-year-old discussion with a focused benchmark, working example code, and profiler-backed evidence showing how demand-paged `cudaMallocManaged` falls into a PCIe-limited regime and how `cudaMemPrefetchAsync` restores DRAM-limited bandwidth.
+
+**Reference:** [StackOverflow Question - Pascal Unified Memory Slowdown](https://stackoverflow.com/questions/39782746)
+
 
 ## Results
 
@@ -22,8 +25,6 @@ Speedup:     29.5x
 - Memory Clock: 5005 MHz
 - Theoretical Peak: 320 GB/s
 - Achieved: 242 GB/s (75% efficiency)
-
-**Reference:** [StackOverflow Question - Pascal Unified Memory Slowdown](https://stackoverflow.com/questions/39782746)
 
 ## Solution
 
@@ -47,7 +48,7 @@ make
 python3 pascal_analyzer.py --pdf
 ```
 
-**New to CUDA?** See [Full Installation](#installation) below (~30 minutes).
+**New to CUDA?** See Full Installation
 
 ---
 
@@ -363,7 +364,7 @@ Pascal GPUs use page-fault-driven unified memory migration:
 - **GPU:** NVIDIA GeForce GTX 1080 (8 GB GDDR5X, SM 6.1)
 - **Driver:** 535.274.02
 - **CUDA Toolkit:** 12.0
-- **Compiler:** nvcc 12.0
+- **Compiler:** nvcc 12.0 (V12.0.140)
 - **Nsight Systems:** 2025.5.1
 - **Python:** 3.10
 - **OS:** Ubuntu 24.04 LTS
@@ -373,10 +374,10 @@ Pascal GPUs use page-fault-driven unified memory migration:
 
 ## Compatibility
 
-**CUDA:** 12.0-12.6 (nvprof available), 13.0+ (nvprof removed)  
-**OS:** Linux (Ubuntu, RHEL, Debian)  
-**Windows:** Use [WSL2](https://learn.microsoft.com/en-us/windows/wsl/about) with Ubuntu  
-**GPU:** Pascal SM 6.1 (GTX 1050-1080 Ti, Titan X/Xp, Tesla P40/P4)  
+**CUDA:** 12.0-12.6 (nvprof available), 13.0+ (nvprof removed) 
+**OS:** Linux (Ubuntu, RHEL, Debian) 
+**Windows:** Use [WSL2](https://learn.microsoft.com/en-us/windows/wsl/about) with Ubuntu 
+**GPU:** Pascal SM 6.1 (GTX 1050-1080 Ti, Titan X/Xp, Tesla P40/P4) 
 **Note:** Tesla P100 (SM 6.0) has different UM implementation, may show smaller speedup
 
 ---
