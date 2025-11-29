@@ -174,7 +174,7 @@ VRAM (MB):          8192
 
 ## Usage
 
-### [PDF Report Example](Docs/pascal_um_report.pdf)
+![PDF Report](Docs/pascal_um_report.png)
 
 
 ```bash
