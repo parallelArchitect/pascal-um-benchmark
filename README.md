@@ -174,7 +174,8 @@ VRAM (MB):          8192
 
 ## Usage
 
-### Generate PDF Report
+### [PDF Report Example](Docs/pascal_um_report.pdf)
+
 
 ```bash
 python3 pascal_analyzer.py --pdf
