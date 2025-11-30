@@ -1,12 +1,29 @@
 # Pascal Unified Memory Performance Analysis
 
-A small, reproducible follow-up to the original Stack Overflow report of severe Unified Memory slowdown on Pascal GPUs. 
+Supplementary benchmark and evidence for the Stack Overflow discussion on Unified Memory slowdown on Pascal GPUs.
 
-**“Why is NVIDIA Pascal GPUs slow on running CUDA kernels when using cudaMallocManaged?”**
+**Supporting: “Why is NVIDIA Pascal GPUs slow on running CUDA kernels when using `cudaMallocManaged`?”**
 
-This project extends a 9-year-old discussion with a focused benchmark, working example code, and profiler-backed evidence showing how demand-paged `cudaMallocManaged` falls into a PCIe-limited regime and how `cudaMemPrefetchAsync` restores DRAM-limited bandwidth.
+This project provides reproducible benchmarks, working code examples, and profiler data that complement the existing Stack Overflow answer. It shows how demand‑paged `cudaMallocManaged` falls into PCIe‑limited performance and how `cudaMemPrefetchAsync` restores DRAM‑limited bandwidth.
 
 **Reference:** [StackOverflow Question - Pascal Unified Memory Slowdown](https://stackoverflow.com/questions/39782746)
+
+
+## Tested Environment
+
+- **GPU:** NVIDIA GeForce GTX 1080 (8 GB GDDR5X, SM 6.1)
+- **Driver:** 535.274.02
+- **CUDA Toolkit:** 12.0
+- **Compiler:** nvcc 12.0 (V12.0.140)
+- **Nsight Systems:** 2025.5.1
+- **Python:** 3.10
+- **OS:** Ubuntu 24.04 LTS
+- **Dependencies:** reportlab, pycuda
+
+
+### Operating System
+- **Linux (Native):** Ubuntu, Debian, RHEL
+- **Windows:** Use [WSL2](https://learn.microsoft.com/en-us/windows/wsl/about) with Ubuntu 
 
 
 ## Results
@@ -18,13 +35,6 @@ Prefetch UM: 242.3 GB/s (13.3 ms, zero page faults)
 Speedup:     29.5x
 ```
 
-**Hardware:**
-- GPU: NVIDIA GeForce GTX 1080 (SM 6.1)
-- VRAM: 8 GB GDDR5X
-- CUDA Cores: 2560
-- Memory Clock: 5005 MHz
-- Theoretical Peak: 320 GB/s
-- Achieved: 242 GB/s (75% efficiency)
 
 ## Solution
 
@@ -174,16 +184,16 @@ VRAM (MB):          8192
 
 ## Usage
 
-![PDF Report](Docs/pascal_um_report.png)
-
 
 ```bash
 python3 pascal_analyzer.py --pdf
 ```
 
+![PDF Report](Docs/pascal_um_report.png) 
+  
+   
 **Output:** `results/pascal_analysis/pascal_um_1G_TIMESTAMP.pdf`
 
-Includes: Hardware specs, kernel timing, page fault analysis, bandwidth measurements
 
 
 ### JSON Export
@@ -356,29 +366,6 @@ Pascal GPUs use page-fault-driven unified memory migration:
 - Transfer overhead: ~71 KB average per fault
 - Migration time: ~189 ms for 2 GB (30,078 transfers)
 - PCIe bandwidth utilized: ~10 GB/s during migration
-
----
-
-## Tested Environment
-
-- **GPU:** NVIDIA GeForce GTX 1080 (8 GB GDDR5X, SM 6.1)
-- **Driver:** 535.274.02
-- **CUDA Toolkit:** 12.0
-- **Compiler:** nvcc 12.0 (V12.0.140)
-- **Nsight Systems:** 2025.5.1
-- **Python:** 3.10
-- **OS:** Ubuntu 24.04 LTS
-- **Dependencies:** reportlab, pycuda
-
----
-
-## Compatibility
-
-**CUDA:** 12.0-12.6 (nvprof available), 13.0+ (nvprof removed) 
-**OS:** Linux (Ubuntu, RHEL, Debian) 
-**Windows:** Use [WSL2](https://learn.microsoft.com/en-us/windows/wsl/about) with Ubuntu 
-**GPU:** Pascal SM 6.1 (GTX 1050-1080 Ti, Titan X/Xp, Tesla P40/P4) 
-**Note:** Tesla P100 (SM 6.0) has different UM implementation, may show smaller speedup
 
 ---
 
